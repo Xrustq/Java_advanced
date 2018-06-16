@@ -1,9 +1,14 @@
 package task_1;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class SynQueue {
+
+    private Logger logger = LoggerFactory.getLogger(SynQueue.class);
 
     private ArrayList<Object> synQueue = new ArrayList<>();
     private AtomicInteger countAtomic = new AtomicInteger(0);
@@ -13,53 +18,43 @@ public class SynQueue {
             while (synQueue.size() == 5) {
                 wait();
             }
-
             synQueue.add(object);
-
+            logger.info("Add " + object);
             countAtomic.incrementAndGet();
 
-            Thread.sleep(500);
+            Thread.sleep(200);
 
-            System.out.println("QueueAdd" + synQueue + " " + Thread.currentThread().getName() + "\n");
+//            System.out.println("Add: "+ object);
+            logger.info("List " + synQueue + " request number: " + countAtomic + " " + "\n");
         } catch (InterruptedException e) {
             e.printStackTrace();
         } finally {
-            notifyAll();
+            this.notifyAll();
         }
     }
 
     public synchronized void get() {
         try {
+
             while (synQueue.size() == 0) {
                 this.wait();
             }
+            logger.info("QueueGet " + synQueue.get(0) + "\n");
+            synQueue.remove(0);
 
-            synQueue.remove(synQueue.size() - 1);
-
-//            wait(1000);
-
-            Thread.sleep(500);
+            Thread.sleep(5000);
 
             countAtomic.incrementAndGet();
 
-            System.out.println("QueueGet" + synQueue + " " + Thread.currentThread().getName() + "\n");
+            logger.info("List " + synQueue + " request number: " + countAtomic + " " + "\n");
         } catch (InterruptedException e) {
             e.printStackTrace();
         } finally {
-            notifyAll();
+            this.notifyAll();
         }
-    }
-
-    @Override
-    public String toString() {
-        return "synQueue=" + synQueue;
     }
 
     public AtomicInteger getCountAtomic() {
         return countAtomic;
-    }
-
-    public void setCountAtomic(AtomicInteger countAtomic) {
-        this.countAtomic = countAtomic;
     }
 }
