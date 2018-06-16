@@ -6,8 +6,8 @@ public class Main {
 
     public static void main(String[] args) throws Exception {
 
-        Utils utils = new Utils();
+        Parser parser = new Parser();
 
-        utils.parse(INPUT_FILE, OUTPUT_FILE);
+        parser.parse(INPUT_FILE, OUTPUT_FILE);
     }
 }

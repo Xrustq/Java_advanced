@@ -19,13 +19,13 @@ public class SynQueue {
                 wait();
             }
             synQueue.add(object);
-            logger.info("Add " + object);
+            logger.info("Add: " + object);
             countAtomic.incrementAndGet();
 
             Thread.sleep(200);
 
 //            System.out.println("Add: "+ object);
-            logger.info("List " + synQueue + " request number: " + countAtomic + " " + "\n");
+            logger.info("List: " + synQueue + " request number: " + countAtomic + "\n");
         } catch (InterruptedException e) {
             e.printStackTrace();
         } finally {
@@ -39,14 +39,14 @@ public class SynQueue {
             while (synQueue.size() == 0) {
                 this.wait();
             }
-            logger.info("QueueGet " + synQueue.get(0) + "\n");
+            logger.info("QueueGet: " + synQueue.get(0) + "\n");
             synQueue.remove(0);
 
             Thread.sleep(5000);
 
             countAtomic.incrementAndGet();
 
-            logger.info("List " + synQueue + " request number: " + countAtomic + " " + "\n");
+            logger.info("List: " + synQueue + " request number: " + countAtomic + "\n");
         } catch (InterruptedException e) {
             e.printStackTrace();
         } finally {

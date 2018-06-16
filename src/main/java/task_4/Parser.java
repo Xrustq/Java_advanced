@@ -7,7 +7,7 @@ import java.io.FileReader;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Utils {
+public class Parser {
 
     public void parse(String input, String output) throws Exception {
 
