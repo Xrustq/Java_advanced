@@ -13,10 +13,9 @@ public class GetRequest extends Thread {
 
     public void run() {
         while (!isInterrupted()) {
-            if (hotel.getCountAtomic().intValue() < 15) {
+            if (hotel.getCountAtomic().intValue() < 12) {
                 hotel.get();
             } else interrupt();
         }
-//        System.exit(1);
     }
 }

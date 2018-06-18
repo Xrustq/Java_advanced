@@ -24,6 +24,5 @@ public class CreateRequest extends Thread {
 
             } interrupt();
         }
-//        System.exit(1);
     }
 }
