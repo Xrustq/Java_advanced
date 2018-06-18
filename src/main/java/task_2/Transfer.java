@@ -32,7 +32,7 @@ public class Transfer extends Thread {
     private static void transfer(Account account1, Account account2, int amount) throws InterruptedException {
 
         if (account1.getBalance() < amount)
-            throw new IllegalArgumentException("Недостаточно средств.");
+            throw new IllegalArgumentException("Insufficient funds");
 
         logger.info("Trying to lock acc1 balance=" + account1.getBalance());
         if (account1.getLock().tryLock(WAIT_SEC, TimeUnit.SECONDS)) {
