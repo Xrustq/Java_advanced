@@ -16,13 +16,14 @@ public class CreateRequest extends Thread {
     }
 
     public void run() {
-        while (hotel.getCountAtomic().intValue() < 15) {
-            hotel.add(new HotelAds(
-                    random.nextInt(100) + 1, LocalDate.of(2018, random.nextInt(12) + 1,
-                    random.nextInt(28) + 1), random.nextInt(100) + 1));
+        while (!isInterrupted()) {
+            while (hotel.getCountAtomic().intValue() < 15) {
+                hotel.add(new HotelAds(
+                        random.nextInt(100) + 1, LocalDate.of(2018, random.nextInt(12) + 1,
+                        random.nextInt(28) + 1), random.nextInt(100) + 1));
 
+            } interrupt();
         }
-        currentThread().interrupt();
-        System.exit(1);
+//        System.exit(1);
     }
 }
