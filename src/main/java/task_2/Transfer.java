@@ -31,13 +31,17 @@ public class Transfer extends Thread {
 
     private static void transfer(Account account1, Account account2, int amount) throws InterruptedException {
 
+        if (account1.equals(account2)) {
+            return;
+        }
+
         if (account1.getBalance() < amount)
             throw new IllegalArgumentException("Insufficient funds");
 
-        logger.info("Trying to lock acc1 balance=" + account1.getBalance());
+        logger.info("Trying to lock acc1 id = " + account1.getId() + " balance = " + account1.getBalance());
         if (account1.getLock().tryLock(WAIT_SEC, TimeUnit.SECONDS)) {
             try {
-                logger.info("Trying to lock acc2 balance=" + account2.getBalance());
+                logger.info("Trying to lock acc2 id = " + account2.getId() + " balance = " + account2.getBalance());
                 if (account2.getLock().tryLock(WAIT_SEC, TimeUnit.SECONDS)) {
                     try {
                         logger.info("locked both accounts, do the transfer");
@@ -45,12 +49,12 @@ public class Transfer extends Thread {
                         account2.deposit(amount);
                     } finally {
                         account2.getLock().unlock();
-                        logger.info("Unlocked acc2 balance=" + account1.getBalance());
+                        logger.info("Unlocked acc2 id = " + account2.getId() + " balance = " + account2.getBalance());
                     }
                 }
             } finally {
                 account1.getLock().unlock();
-                logger.info("Unlocked acc1 balance=" + account2.getBalance());
+                logger.info("Unlocked acc1 id = " + account1.getId() + " balance = " + account1.getBalance());
             }
         }
     }
