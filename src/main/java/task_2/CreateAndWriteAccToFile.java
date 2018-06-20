@@ -4,6 +4,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Random;
 
 public class CreateAndWriteAccToFile {
@@ -30,6 +33,14 @@ public class CreateAndWriteAccToFile {
         out.flush();
         out.close();
         logger.info("Account id = " + account.getId() + " balance = " + account.getBalance());
+    }
+
+    public void deleteFiles() throws IOException {
+        logger.info("Called deleteFiles");
+        Files.walk(Paths.get("src\\main\\resources\\accounts\\"))
+                .filter(Files::isRegularFile)
+                .map(Path::toFile)
+                .forEach(File::delete);
     }
 
 }
