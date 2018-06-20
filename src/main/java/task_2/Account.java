@@ -1,22 +1,21 @@
 package task_2;
 
+import java.io.Serializable;
 import java.util.Objects;
 import java.util.concurrent.locks.ReentrantLock;
 
-public class Account {
+public class Account implements Serializable {
 
     private int id;
     private int balance;
 
-    private transient ReentrantLock lock = new ReentrantLock();
+    private ReentrantLock lock = new ReentrantLock();
 
     public Account(int id, int balance) {
         this.id = id;
         this.balance = balance;
     }
 
-    public Account() {
-    }
 
     public void withdraw(int amount) {
         balance -= amount;

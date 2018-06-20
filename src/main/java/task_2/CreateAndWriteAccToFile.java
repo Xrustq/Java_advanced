@@ -1,14 +1,14 @@
 package task_2;
 
-import com.google.gson.Gson;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.Random;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class CreateAndWriteAccToFile {
 
+    private static Logger logger = LoggerFactory.getLogger(CreateAndWriteAccToFile.class);
     private static Random random = new Random();
 
     private int AllBalance = 0;
@@ -16,55 +16,20 @@ public class CreateAndWriteAccToFile {
     public int getAllBalance() {
         return AllBalance;
     }
-//    private AtomicInteger atomicInteger = new AtomicInteger(0);
-//    private final static int ACCOUNTS_COUNT = 10;
-
-//    @Override
-//    public void run() {
-//        while (!isInterrupted())
-//        if (atomicInteger.intValue() < ACCOUNTS_COUNT) {
-//            try {
-//                writeAccListToFile(createAccount());
-//                atomicInteger.incrementAndGet();
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//        } else interrupt();
-//    }
-
-//    @Override
-//    public void run() {
-//        while (!isInterrupted())
-//            if (getAtomicInteger().intValue() < ACCOUNTS_COUNT) {
-//                accToJson(createAccount());
-//                atomicInteger.incrementAndGet();
-//            } else interrupt();
-//    }
 
     public Account createAccount() {
         return new Account(random.nextInt(100) + 1,
-                random.nextInt(4000) + 1000);
+                5000);
     }
 
-//    public void writeAccListToFile(Account account) throws IOException {
-//        try (BufferedWriter writer = new BufferedWriter(
-//                new FileWriter("src\\main\\resources\\accounts\\" + account.getId() + ".txt"))) {
-//            writer.write(account.toString());
-//        }
-//    }
-
-    public void accToJson(Account account) {
-        Gson gson = new Gson();
-        try (FileWriter writer = new FileWriter("src\\main\\resources\\accounts\\" + account.getId() + ".txt")) {
-            AllBalance += account.getBalance();
-            gson.toJson(account, writer);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public void writeAccListToFile(Account account) throws IOException {
+        ObjectOutputStream out = new ObjectOutputStream(new BufferedOutputStream(
+                new FileOutputStream("src\\main\\resources\\accounts\\" + account.getId() + ".bin")));
+        AllBalance += account.getBalance();
+        out.writeObject(account);
+        out.flush();
+        out.close();
+        logger.info("Account id = " + account.getId() + " balance = " + account.getBalance());
     }
-//
-//    public AtomicInteger getAtomicInteger() {
-//        return atomicInteger;
-//    }
 
 }

@@ -4,11 +4,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class Transfer extends Thread {
 
-    private static Logger logger = LoggerFactory.getLogger(Main.class);
-    private static final int WAIT_SEC = 2;
+    private static Logger logger = LoggerFactory.getLogger(Transfer.class);
+
+    private static AtomicInteger atomicInteger = new AtomicInteger(1);
 
     private Account account1;
     private Account account2;
@@ -22,11 +24,14 @@ public class Transfer extends Thread {
 
     @Override
     public void run() {
-        try {
-            transfer(account1, account2, amount);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+        while (atomicInteger.intValue() < 100) {
+            try {
+                transfer(account1, account2, amount);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
+
     }
 
     private static void transfer(Account account1, Account account2, int amount) throws InterruptedException {
@@ -39,14 +44,16 @@ public class Transfer extends Thread {
             throw new IllegalArgumentException("Insufficient funds");
 
         logger.info("Trying to lock acc1 id = " + account1.getId() + " balance = " + account1.getBalance());
-        if (account1.getLock().tryLock(WAIT_SEC, TimeUnit.SECONDS)) {
+        if (account1.getLock().tryLock(300, TimeUnit.MILLISECONDS)) {
             try {
                 logger.info("Trying to lock acc2 id = " + account2.getId() + " balance = " + account2.getBalance());
-                if (account2.getLock().tryLock(WAIT_SEC, TimeUnit.SECONDS)) {
+                if (account2.getLock().tryLock(300, TimeUnit.SECONDS)) {
                     try {
                         logger.info("locked both accounts, do the transfer");
                         account1.withdraw(amount);
                         account2.deposit(amount);
+                        atomicInteger.incrementAndGet();
+//                        Thread.sleep(300);
                     } finally {
                         account2.getLock().unlock();
                         logger.info("Unlocked acc2 id = " + account2.getId() + " balance = " + account2.getBalance());
@@ -57,5 +64,8 @@ public class Transfer extends Thread {
                 logger.info("Unlocked acc1 id = " + account1.getId() + " balance = " + account1.getBalance());
             }
         }
+    }
+    public static AtomicInteger getAtomicInteger() {
+        return atomicInteger;
     }
 }
