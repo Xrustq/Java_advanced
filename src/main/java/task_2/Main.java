@@ -30,7 +30,7 @@ public class Main {
         for (int i = 0; i < 5; i++) {
             es.execute(new Transaction(list));
         }
-        es.awaitTermination(3, TimeUnit.SECONDS);
+        es.awaitTermination(1, TimeUnit.SECONDS);
         es.shutdown();
 
         for (int i = 0; i < list.size(); i++) {

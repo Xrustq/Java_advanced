@@ -22,7 +22,7 @@ public class CreateAndWriteAccToFile {
 
     public Account createAccount() {
         return new Account(random.nextInt(100) + 1,
-                5000);
+                random.nextInt(5000) + 3000);
     }
 
     public void writeAccListToFile(Account account) throws IOException {
