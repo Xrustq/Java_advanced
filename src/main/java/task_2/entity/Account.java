@@ -1,4 +1,4 @@
-package task_2;
+package task_2.entity;
 
 import java.io.Serializable;
 import java.util.Objects;

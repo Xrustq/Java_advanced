@@ -14,23 +14,42 @@ public class SynQueue {
     private static final int REQUEST_CAPACITY = 15;
 
     private ArrayList<Object> synQueue = new ArrayList<>();
-    private AtomicInteger countAtomic = new AtomicInteger(0);
+    private AtomicInteger addCount = new AtomicInteger(0);
+    private AtomicInteger getCount = new AtomicInteger(0);
 
     public void add(Object object) {
         synchronized (this) {
-            if (countAtomic.intValue() < REQUEST_CAPACITY) {
-                try {
-                    while (synQueue.size() == QUEUE_CAPACITY) {
-                        wait();
-                    }
+
+            try {
+                while (synQueue.size() == QUEUE_CAPACITY) {
+                    wait();
+                }
+                if (addCount.intValue() < REQUEST_CAPACITY) {
+                    addCount.incrementAndGet();
                     synQueue.add(object);
                     logger.info("Add: " + object);
-                    countAtomic.incrementAndGet();
+                } else return;
+                logger.info("List: " + synQueue + " request number: " + addCount + "\n");
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } finally {
+                this.notifyAll();
+            }
 
-//                    Thread.sleep(200);
+        }
+    }
 
-//            System.out.println("Add: "+ object);
-                    logger.info("List: " + synQueue + " request number: " + countAtomic + "\n");
+    public void get() {
+        synchronized (this) {
+            if (getCount.intValue() < REQUEST_CAPACITY) {
+                try {
+                    while (synQueue.size() == 0) {
+                        this.wait();
+                    }
+                    logger.info("QueueGet: " + synQueue.get(0) + "\n");
+                    synQueue.remove(0);
+                    getCount.incrementAndGet();
+                    logger.info("List: " + synQueue + " request number: " + addCount + "\n");
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 } finally {
@@ -40,26 +59,11 @@ public class SynQueue {
         }
     }
 
-    public void get() {
-        synchronized (this) {
-            try {
-                while (synQueue.size() == 0) {
-                    this.wait();
-                }
-                logger.info("QueueGet: " + synQueue.get(0) + "\n");
-                synQueue.remove(0);
-
-                Thread.sleep(5000);
-                logger.info("List: " + synQueue + " request number: " + countAtomic + "\n");
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            } finally {
-                this.notifyAll();
-            }
-        }
+    public AtomicInteger getAddCount() {
+        return addCount;
     }
 
-    public AtomicInteger getCountAtomic() {
-        return countAtomic;
+    public AtomicInteger getGetCount() {
+        return getCount;
     }
 }

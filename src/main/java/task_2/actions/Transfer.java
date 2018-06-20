@@ -1,7 +1,8 @@
-package task_2;
+package task_2.actions;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import task_2.entity.Account;
 
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -11,7 +12,7 @@ public class Transfer {
     private static Logger logger = LoggerFactory.getLogger(Transfer.class);
     private static AtomicInteger atomicInteger = new AtomicInteger(0);
 
-    public void transfer(Account account1, Account account2, int amount ,int TRANSACTION_COUNT) throws InterruptedException {
+    public void transfer(Account account1, Account account2, int amount , int TRANSACTION_COUNT) throws InterruptedException {
 
         if (account1.equals(account2)) {
             return;

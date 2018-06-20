@@ -1,7 +1,8 @@
-package task_2;
+package task_2.actions;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import task_2.entity.Account;
 
 import java.io.*;
 import java.nio.file.Files;

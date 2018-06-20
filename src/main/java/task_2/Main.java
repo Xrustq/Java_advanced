@@ -1,6 +1,12 @@
 package task_2;
 
 
+import task_2.actions.CreateAndWriteAccToFile;
+import task_2.actions.ReadAccToList;
+import task_2.actions.Transaction;
+import task_2.actions.Transfer;
+import task_2.entity.Account;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutorService;
@@ -10,6 +16,7 @@ import java.util.concurrent.TimeUnit;
 public class Main {
 
     private final static int ACCOUNT_COUNT = 5;
+    private final static int TRANSACTION_AMOUNT = 1000;
 
     public static void main(String[] args) throws InterruptedException, IOException, ClassNotFoundException {
 
@@ -28,9 +35,9 @@ public class Main {
 
         ExecutorService es = Executors.newCachedThreadPool();
         for (int i = 0; i < 5; i++) {
-            es.execute(new Transaction(list));
+            es.execute(new Transaction(list, TRANSACTION_AMOUNT));
         }
-        es.awaitTermination(1, TimeUnit.SECONDS);
+        es.awaitTermination(5, TimeUnit.SECONDS);
         es.shutdown();
 
         for (int i = 0; i < list.size(); i++) {
