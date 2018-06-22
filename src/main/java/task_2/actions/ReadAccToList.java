@@ -10,17 +10,6 @@ public class ReadAccToList {
 
     private static final String ACCOUNT_PATH = "src\\main\\resources\\accounts";
 
-    public Account writeAccToList(String file) throws IOException, ClassNotFoundException {
-
-        Account account;
-
-        ObjectInputStream in = new ObjectInputStream(new BufferedInputStream(
-                new FileInputStream(file)));
-        account = (Account) in.readObject();
-
-        return account;
-    }
-
     public ArrayList<String> listPath() {
         File folder = new File(ACCOUNT_PATH);
         File[] files = folder.listFiles();
@@ -37,5 +26,16 @@ public class ReadAccToList {
             listAcc.add(writeAccToList(aListPath));
         }
         return listAcc;
+    }
+
+    public Account writeAccToList(String file) throws IOException, ClassNotFoundException {
+
+        Account account;
+
+        ObjectInputStream in = new ObjectInputStream(
+                new BufferedInputStream(new FileInputStream(file)));
+        account = (Account) in.readObject();
+
+        return account;
     }
 }

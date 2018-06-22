@@ -11,13 +11,12 @@ public class SynQueue {
     private Logger logger = LoggerFactory.getLogger(SynQueue.class);
 
     private static final int QUEUE_CAPACITY = 5;
-    private static final int REQUEST_CAPACITY = 15;
 
     private ArrayList<Object> synQueue = new ArrayList<>();
     private AtomicInteger addCount = new AtomicInteger(0);
     private AtomicInteger getCount = new AtomicInteger(0);
 
-    public void add(Object object) {
+    public void add(Object object, int REQUEST_CAPACITY) {
         synchronized (this) {
 
             try {
@@ -39,7 +38,7 @@ public class SynQueue {
         }
     }
 
-    public void get() {
+    public void get(int REQUEST_CAPACITY) {
         synchronized (this) {
             if (getCount.intValue() < REQUEST_CAPACITY) {
                 try {

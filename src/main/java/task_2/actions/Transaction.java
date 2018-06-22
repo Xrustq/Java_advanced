@@ -22,7 +22,7 @@ public class Transaction extends Thread {
         while (Transfer.getAtomicInteger().intValue() < TRANSACTION_AMOUNT) {
             try {
                 transfer.transfer(accList.get(random.nextInt(accList.size())),
-                        accList.get(random.nextInt(accList.size())), random.nextInt(200) + 1, TRANSACTION_AMOUNT);
+                        accList.get(random.nextInt(accList.size())), random.nextInt(2000) + 1, TRANSACTION_AMOUNT);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
