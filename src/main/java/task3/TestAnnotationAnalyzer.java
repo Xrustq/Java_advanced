@@ -1,4 +1,4 @@
-package task_3;
+package task3;
 
 import java.lang.reflect.Method;
 import java.util.Arrays;

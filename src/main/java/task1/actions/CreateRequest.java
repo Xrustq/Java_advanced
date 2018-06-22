@@ -1,7 +1,7 @@
-package task_1.actions;
+package task1.actions;
 
-import task_1.SynQueue;
-import task_1.entity.HotelAds;
+import task1.SynQueue;
+import task1.entity.HotelAds;
 
 import java.time.LocalDate;
 import java.util.Random;

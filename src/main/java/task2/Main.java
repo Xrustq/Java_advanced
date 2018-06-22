@@ -1,13 +1,13 @@
-package task_2;
+package task2;
 
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import task_2.actions.CreateAndWriteAccToFile;
-import task_2.actions.ReadAccToList;
-import task_2.actions.Transaction;
-import task_2.actions.Transfer;
-import task_2.entity.Account;
+import task2.actions.CreateAndWriteAccToFile;
+import task2.actions.ReadAccToList;
+import task2.actions.Transaction;
+import task2.actions.Transfer;
+import task2.entity.Account;
 
 import java.io.IOException;
 import java.util.ArrayList;

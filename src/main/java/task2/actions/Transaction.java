@@ -1,6 +1,6 @@
-package task_2.actions;
+package task2.actions;
 
-import task_2.entity.Account;
+import task2.entity.Account;
 
 import java.util.ArrayList;
 import java.util.Random;

@@ -1,8 +1,8 @@
-package task_2.actions;
+package task2.actions;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import task_2.entity.Account;
+import task2.entity.Account;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -16,10 +16,10 @@ public class CreateAndWriteAccToFile {
     private static Random random = new Random();
     private static final String ACCOUNT_PATH = "src\\main\\resources\\accounts";
 
-    private int AllBalance = 0;
+    private int allBalance = 0;
 
     public int getAllBalance() {
-        return AllBalance;
+        return allBalance;
     }
 
     public Account createAccount() {
@@ -28,12 +28,12 @@ public class CreateAndWriteAccToFile {
     }
 
     public void writeAccListToFile(Account account) throws IOException {
-        ObjectOutputStream out = new ObjectOutputStream(new BufferedOutputStream(
-                new FileOutputStream(ACCOUNT_PATH + "\\" + account.getId() + ".bin")));
-        AllBalance += account.getBalance();
-        out.writeObject(account);
-        out.flush();
-        out.close();
+        try (ObjectOutputStream out = new ObjectOutputStream(new BufferedOutputStream(
+                new FileOutputStream(ACCOUNT_PATH + "\\" + account.getId() + ".bin")))) {
+            allBalance += account.getBalance();
+            out.writeObject(account);
+            out.flush();
+        }
         logger.info("Account id = " + account.getId() + " balance = " + account.getBalance());
     }
 

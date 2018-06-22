@@ -1,8 +1,8 @@
-package task_1;
+package task1;
 
 
-import task_1.actions.CreateRequest;
-import task_1.actions.GetRequest;
+import task1.actions.CreateRequest;
+import task1.actions.GetRequest;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;

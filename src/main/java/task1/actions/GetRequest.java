@@ -1,6 +1,6 @@
-package task_1.actions;
+package task1.actions;
 
-import task_1.SynQueue;
+import task1.SynQueue;
 
 
 public class GetRequest extends Thread {

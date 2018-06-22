@@ -1,4 +1,4 @@
-package task_1.entity;
+package task1.entity;
 
 import java.time.LocalDate;
 

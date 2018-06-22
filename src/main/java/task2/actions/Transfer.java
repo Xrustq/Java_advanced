@@ -1,8 +1,8 @@
-package task_2.actions;
+package task2.actions;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import task_2.entity.Account;
+import task2.entity.Account;
 
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
