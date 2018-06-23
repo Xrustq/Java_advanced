@@ -25,23 +25,22 @@ public class Transfer {
         if (acc1.getLock().tryLock(100, TimeUnit.MILLISECONDS)) {
             try {
                 logger.info("Trying to lock acc2 id = " + acc2.getId() + " balance = " + acc2.getBalance());
-                if (acc2.getLock().tryLock(100, TimeUnit.MILLISECONDS)) {
-                    try {
-                        if (getAtomicInteger().intValue() < TRANSACTION_COUNT) {
-                            atomicInteger.incrementAndGet();
-                            logger.info("Locked both accounts, do the transfer");
-                            if (account1.getBalance() < amount) {
+                acc2.getLock().lock();
+                try {
+                    if (account1.getBalance() < amount) {
 //                                throw new IllegalArgumentException("Insufficient funds");
-                                logger.info("Insufficient funds");
-                                return;
-                            }
-                            account1.withdraw(amount);
-                            account2.deposit(amount);
-                        } else return;
-                    } finally {
-                        acc2.getLock().unlock();
-                        logger.info("Unlocked acc2 id = " + account2.getId() + " balance = " + account2.getBalance());
+                        logger.info("Insufficient funds");
+                        return;
                     }
+                    if (getAtomicInteger().intValue() < TRANSACTION_COUNT) {
+                        atomicInteger.incrementAndGet();
+                        logger.info("Locked both accounts, do the transfer");
+                        account1.withdraw(amount);
+                        account2.deposit(amount);
+                    } else return;
+                } finally {
+                    acc2.getLock().unlock();
+                    logger.info("Unlocked acc2 id = " + account2.getId() + " balance = " + account2.getBalance());
                 }
             } finally {
                 acc1.getLock().unlock();
