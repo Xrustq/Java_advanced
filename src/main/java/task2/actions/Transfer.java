@@ -10,7 +10,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class Transfer {
 
     private static Logger logger = LoggerFactory.getLogger(Transfer.class);
-    private static AtomicInteger atomicInteger = new AtomicInteger(0);
+    private static AtomicInteger currentTransactionCount = new AtomicInteger(0);
 
     public void transfer(Account account1, Account account2, int amount, int TRANSACTION_COUNT) throws InterruptedException {
 
@@ -32,8 +32,8 @@ public class Transfer {
                         logger.info("Insufficient funds");
                         return;
                     }
-                    if (getAtomicInteger().intValue() < TRANSACTION_COUNT) {
-                        atomicInteger.incrementAndGet();
+                    if (getCurrentTransactionCount().intValue() < TRANSACTION_COUNT) {
+                        currentTransactionCount.incrementAndGet();
                         logger.info("Locked both accounts, do the transfer");
                         account1.withdraw(amount);
                         account2.deposit(amount);
@@ -49,8 +49,8 @@ public class Transfer {
         }
     }
 
-    public static AtomicInteger getAtomicInteger() {
-        return atomicInteger;
+    public static AtomicInteger getCurrentTransactionCount() {
+        return currentTransactionCount;
     }
 
     private Account more(Account account1, Account account2) {

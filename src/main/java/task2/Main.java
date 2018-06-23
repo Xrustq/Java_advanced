@@ -48,6 +48,6 @@ public class Main {
             create.writeAccListToFile(list.get(i));
         }
 
-        logger.info("All balance after transaction = " + create.getAllBalance() / 2 + " transaction amount = " + Transfer.getAtomicInteger().intValue());
+        logger.info("All balance after transaction = " + create.getAllBalance() / 2 + " transaction amount = " + Transfer.getCurrentTransactionCount().intValue());
     }
 }

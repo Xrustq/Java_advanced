@@ -19,7 +19,7 @@ public class Transaction extends Thread {
 
     @Override
     public void run() {
-        while (Transfer.getAtomicInteger().intValue() < TRANSACTION_AMOUNT) {
+        while (Transfer.getCurrentTransactionCount().intValue() < TRANSACTION_AMOUNT) {
             try {
                 transfer.transfer(accList.get(random.nextInt(accList.size())),
                         accList.get(random.nextInt(accList.size())), random.nextInt(2000) + 1, TRANSACTION_AMOUNT);
