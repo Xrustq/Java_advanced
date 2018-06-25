@@ -18,7 +18,6 @@ public class SynQueue {
 
     public void add(Object object, int REQUEST_CAPACITY) {
         synchronized (this) {
-
             try {
                 while (synQueue.size() == QUEUE_CAPACITY) {
                     wait();
@@ -26,7 +25,7 @@ public class SynQueue {
                 if (addCount.intValue() < REQUEST_CAPACITY) {
                     addCount.incrementAndGet();
                     synQueue.add(object);
-                    logger.info("Add: " + object);
+                    logger.info("Add: {}", object);
                 } else return;
                 logger.info("List: " + synQueue + " request number: " + addCount + "\n");
             } catch (InterruptedException e) {
